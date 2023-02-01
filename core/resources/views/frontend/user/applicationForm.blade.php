@@ -32,7 +32,7 @@
         <div class="row justify-content-center">
           <div class="col-lg-8">
             <div class="user-content">
-              <form action="{{ route('user.signup_submit') }}" method="POST">
+              <form action="{{ url('/user/applicationFormSubmit') }}" method="POST">
                 @csrf
                 <div id="step1">
                   <div class="input-box">
@@ -67,142 +67,157 @@
 
                   <div class="input-box">
                     <label>Accommodation choice*</label>
-                    <select id="cars" name="cars">
-                      <option value="volvo">Volvo XC90</option>
-                      <option value="saab">Saab 95</option>
-                      <option value="mercedes">Mercedes SLK</option>
-                      <option value="audi">Audi TT</option>
+                    <select id="accommodation" name="accommodation">
+                      <option value="Single Room">Single Room</option>
+                      <option value="Double Shared Room">Double Shared Room</option>
+                      <option value="Dormitory">Dormitory</option>
+                      <option value="Dormitory (Same Gender Only)">Dormitory (Same Gender Only)</option>
                     </select>
                   </div>
                 </div>
 
                 <div class="d-none" id="step2">
+                  <h1 class="text-center">About You</h1>
                   <div class="input-box">
                     <label>First Name*</label>
-                    <input type="text" name="username" value="{{ old('username') }}">
+                    <input type="text" name="firstName" value="{{ old('firstName') }}">
                   </div>
 
                   <div class="input-box">
                     <label>Last Name*</label>
-                    <input type="text" name="username" value="{{ old('username') }}">
+                    <input type="text" name="lastName" value="{{ old('lastName') }}">
                   </div>
 
                   <div class="input-box">
                     <label>Email*</label>
-                    <input type="email" name="username" value="{{ old('username') }}">
+                    <input type="email" name="email" value="{{ old('email') }}">
                   </div>
 
                   <div class="input-box">
                     <label>Your Occupation</label>
-                    <input type="text" name="username" value="{{ old('username') }}">
+                    <input type="text" name="occupation" value="{{ old('occupation') }}">
                   </div>
                 </div>
 
                 <div class="d-none" id="step3">
+                  <h1 class="text-center">About You</h1>
                   <div class="input-box">
-                    <label>Gender*</label><br/>
-                    <input type="radio" id="html" name="fav_language" value="HTML">
-                    <label for="html">Male</label><br>
-                    <input type="radio" id="css" name="fav_language" value="CSS">
-                    <label for="css">Female</label><br>
-                    <input type="radio" id="javascript" name="fav_language" value="JavaScript">
-                    <label for="javascript">Other</label>
+                    <label>Gender*</label>
+                    <select name="gender">
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </select>
                   </div>
 
                   <div class="input-box">
                     <label>Date of Birth*</label>
-                    <input type="date" class="form-control" name="username" value="{{ old('username') }}">
+                    <input type="date" class="form-control" name="dob" value="{{ old('dob') }}">
                   </div>
 
                   <div class="input-box">
                     <label>Nationality*</label>
-                    <input type="text" name="username" value="{{ old('username') }}">
+                    <input type="text" name="nationality" value="{{ old('nationality') }}">
                   </div>
                 </div>
 
                 <div class="d-none" id="step4">
+                  <h1 class="text-center">Your Contact Details</h1>
                   <div class="input-box">
                     <label>Street + House Number*</label>
-                    <input type="text" name="username" value="{{ old('username') }}">
+                    <input type="text" name="street" value="{{ old('street') }}">
                   </div>
 
                   <div class="input-box">
                     <label>City*</label>
-                    <input type="text" name="username" value="{{ old('username') }}">
+                    <input type="text" name="city" value="{{ old('city') }}">
                   </div>
 
                   <div class="input-box">
                     <label>Country*</label>
-                    <input type="text" name="username" value="{{ old('username') }}">
+                    <input type="text" name="country" value="{{ old('country') }}">
                   </div>
 
                   <div class="input-box">
                     <label>Zip Code*</label>
-                    <input type="text" name="username" value="{{ old('username') }}">
+                    <input type="text" name="zipCode" value="{{ old('zipCode') }}">
                   </div>
 
                   <div class="input-box">
                     <label>Phone*</label>
-                    <input type="text" name="username" value="{{ old('username') }}">
+                    <input type="text" name="phone" value="{{ old('phone') }}">
                   </div>
                 </div>
 
                 <div class="d-none" id="step5">
+                  <h1 class="text-center">Emergency Contact</h1>
                   <div class="input-box">
                     <label>Name*</label>
-                    <input type="text" name="username" value="{{ old('username') }}">
+                    <input type="text" name="emergencyName" value="{{ old('emergencyName') }}">
                   </div>
 
                   <div class="input-box">
                     <label>Phone*</label>
-                    <input type="text" name="username" value="{{ old('username') }}">
+                    <input type="text" name="emergencyPhone" value="{{ old('emergencyPhone') }}">
                   </div>
 
                   <div class="input-box">
                     <label>Relationship*</label>
-                    <input type="text" name="username" value="{{ old('username') }}">
+                    <input type="text" name="emergencyRelationship" value="{{ old('emergencyRelationship') }}">
                   </div>
                 </div>
 
                 <div class="d-none" id="step6">
                   <div class="input-box">
                     <label>How long have you been practicing Yoga?*</label>
-                    <select id="cars" name="cars">
-                      <option value="volvo">Volvo XC90</option>
-                      <option value="saab">Saab 95</option>
-                      <option value="mercedes">Mercedes SLK</option>
-                      <option value="audi">Audi TT</option>
+                    <select name="question1">
+                      <option value="Less than a year">Less than a year</option>
+                      <option value="More than a year">More than a year</option>
                     </select>
                   </div>
 
                   <div class="input-box">
-                    <label>Do you have any experience teaching yoga?*</label>
-                    <select id="cars" name="cars">
-                      <option value="volvo">Volvo XC90</option>
-                      <option value="saab">Saab 95</option>
-                      <option value="mercedes">Mercedes SLK</option>
-                      <option value="audi">Audi TT</option>
+                    <label>Do you have any experience teaching yoga?</label>
+                    <select name="question2">
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
                     </select>
                   </div>
 
                   <div class="input-box">
                     <label>What is your primary reason to join the course?*</label>
-                    <input type="text" name="username" value="{{ old('username') }}">
+                    <input type="text" name="question3" value="{{ old('question3') }}">
                   </div>
 
                   <div class="input-box">
-                    <label>What is important to you in life?*</label>
-                    <input type="text" name="username" value="{{ old('username') }}">
+                    <label>What is important to you in life?</label>
+                    <input type="text" name="question4" value="{{ old('question4') }}">
                   </div>
 
                   <div class="input-box">
                     <label>Why did you choose Arhanta Yoga?*</label>
-                    <input type="text" name="username" value="{{ old('username') }}">
+                    <input type="text" name="question5" value="{{ old('question5') }}">
                   </div>
 
                   <div class="input-box">
                     <label>How did you hear about us?*</label>
-                    <input type="text" name="username" value="{{ old('username') }}">
+                    <input type="text" name="question6" value="{{ old('question6') }}">
+                  </div>
+                </div>
+
+                <div class="d-none" id="step7">
+                  <div class="input-box">
+                    <label>Have you in the last 12 months used tobacco, alcohol, recreational drugs, or illicit substances?*</label>
+                    <select name="question7">
+                      <option value="No">No</option>
+                      <option value="Yes">Yes</option>
+                    </select>
+                  </div>
+                  <p>Please note that for any residential courses conducted at the premises of the Arhanta Yoga Ashrams in India and the Netherlands, the use of tobacco, alcohol and any other drugs is strictly prohibited. Please consider carefully before applying that you will be able to discontinue the use of any such substances during the entire duration of your course.</p>
+
+                  <div class="input-box">
+                    <label>Please mention in case you have any allergies or special dietary needs:</label>
+                    <textarea name="question8" rows="3">{{ old('question8') }}</textarea>
                   </div>
                 </div>
 
