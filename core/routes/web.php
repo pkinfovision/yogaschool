@@ -32,6 +32,7 @@ use App\Http\Controllers\FrontEnd\Room\FlutterwaveController;
 use App\Http\Controllers\FrontEnd\Room\MercadoPagoController;
 use App\Http\Controllers\FrontEnd\Room\RoomBookingController;
 use App\Http\Controllers\BackEnd\HomePage\HeroVideoController;
+use App\Http\Controllers\BackEnd\StudentsManagementController;
 use App\Http\Controllers\BackEnd\BuildingsManagementController;
 use App\Http\Controllers\BackEnd\HomePage\HeroSliderController;
 use App\Http\Controllers\BackEnd\HomePage\HeroStaticController;
@@ -202,6 +203,8 @@ Route::prefix('/user')->middleware(['guest:web'])->group(function () {
 
   // signup verify route
   Route::get('/signup_verify/{token}', [UserController::class, 'signupVerify']);
+
+  Route::get('/applicationForm', [UserController::class, 'applicationForm'])->middleware('language');
 });
 
 Route::prefix('/user')->middleware(['auth:web', 'language', 'userstatus'])->group(function () {
@@ -681,6 +684,15 @@ Route::prefix('/admin')->middleware(['auth:admin', 'lfm.path'])->group(function 
     Route::post('/batchesManagement/delete/{id}', [BatchesManagementController::class, 'delete']);
   });
   // batches management route end
+
+  // students management route start
+  Route::group(['middleware' => 'checkpermission:Students Management'], function () {
+    Route::get('/studentsManagement', [StudentsManagementController::class, 'index']);
+    Route::post('/studentsManagement/create', [StudentsManagementController::class, 'create']);
+    Route::post('/studentsManagement/update', [StudentsManagementController::class, 'update']);
+    Route::post('/studentsManagement/delete/{id}', [StudentsManagementController::class, 'delete']);
+  });
+  // students management route end
 
 
   // Room Bookings Routes
