@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\BackEnd;
 
-use App\Models\RoomsModel;
 use App\Models\BatchesModel;
 use App\Models\CoursesModel;
 use Illuminate\Http\Request;
-use App\Models\BuildingsModel;
 use App\Traits\MiscellaneousTrait;
+use Illuminate\Support\Facades\DB;
+use App\Models\SessionBatchesModel;
 use App\Http\Controllers\Controller;
+use App\Models\AcademicSessionsModel;
 
 class BatchesManagementController extends Controller
 {
@@ -16,7 +17,8 @@ class BatchesManagementController extends Controller
 
   public function index()
   {
-    $data['batches'] = BatchesModel::all();
+
+    $data['batches'] = AcademicSessionsModel::find(getCurrentAcademicSession())->getBatches;
     $data['courses'] = CoursesModel::all();
     return view('backend.batchesManagement.index', $data);
   }
@@ -34,8 +36,13 @@ class BatchesManagementController extends Controller
         'location' => 'required',
       ]
     );
+
+    DB::transaction(function() use ($request)
+    {
+      $batch = BatchesModel::create($request->all());
+      SessionBatchesModel::create(['sessionId' => getCurrentAcademicSession(), 'batchId' => $batch->id]);
+    });
     
-    BatchesModel::create($request->all());
     $request->session()->flash('success', 'Batch added successfully!');
     return 'success';
   }
@@ -61,7 +68,12 @@ class BatchesManagementController extends Controller
 
   public function delete($id)
   {
-    BatchesModel::findOrFail($id)->delete();
+    DB::transaction(function() use ($id)
+    {
+      SessionBatchesModel::where(['sessionId' => getCurrentAcademicSession(), 'batchId' => $id])->delete();
+      BatchesModel::findOrFail($id)->delete();
+    });
+    
     return back()->with('success', 'Batch deleted successfully!');
   }
 }

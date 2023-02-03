@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\BackEnd;
 
-use App\Models\RoomsModel;
 use App\Models\BatchesModel;
 use App\Models\CoursesModel;
 use Illuminate\Http\Request;
 use App\Models\StudentsModel;
-use App\Models\BuildingsModel;
 use App\Traits\MiscellaneousTrait;
 use App\Http\Controllers\Controller;
+use App\Models\AcademicSessionsModel;
 
 class StudentsManagementController extends Controller
 {
@@ -17,9 +16,16 @@ class StudentsManagementController extends Controller
 
   public function index()
   {
-    $data['batches'] = BatchesModel::all();
+    $data['batches'] = AcademicSessionsModel::find(getCurrentAcademicSession())->getBatches;
+    $data['totalStudents'] = 0;
+
+    foreach($data['batches'] as $batch)
+    {
+      $data['totalStudents'] += count($batch->getStudents);
+    }
+    
     $data['courses'] = CoursesModel::all();
-    $data['students'] = StudentsModel::all();
+    // $data['students'] = StudentsModel::all();
     return view('backend.studentsManagement.index', $data);
   }
 
