@@ -630,103 +630,97 @@ class UserController extends Controller
 
   public function applicationFormSubmit(Request $request)
   {
-    dd($request->all());
-    $rules =
-    [
-      'course' => 'required',
-      'location' => 'required',
-      'date' => 'required',
-      'accommodation' => 'required',
-      'email' => 'required',
-      'gender' => 'required|email',
-      'dob' => 'required',
-      'nationality' => 'required',
-      'street' => 'required',
-      'city' => 'required',
-      'country' => 'required',
-      'zipCode' => 'required',
-      'phone' => 'required',
-      'username' => 'required',
-      'username' => 'required',
-      'username' => 'required',
-    ];
 
-    // $rules = [
-    //   'username' => 'required|unique:users|max:255',
-    //   'email' => 'required|email:rfc,dns|unique:users|max:255',
-    //   'password' => 'required|confirmed',
-    //   'password_confirmation' => 'required'
+    $request->validate(
+      [
+        'course' => 'required',
+        'location' => 'required',
+        'date' => 'required',
+        'accommodation' => 'required',
+        'email' => 'required',
+        'gender' => 'required|email',
+        'dob' => 'required',
+        'nationality' => 'required',
+        'street' => 'required',
+        'city' => 'required',
+        'country' => 'required',
+        'zipCode' => 'required',
+        'phone' => 'required',
+        'emergencyName' => 'required',
+        'emergencyPhone' => 'required',
+        'emergencyRelationship' => 'required',
+        'question1' => 'required',
+        'question3' => 'required',
+        'question5' => 'required',
+        'question6' => 'required',
+        'question7' => 'required'
+      ]
+    );
+    
+    dd($request->all());
+
+    // $rules =
+    // [
+    //   'course' => 'required',
+    //   'location' => 'required',
+    //   'date' => 'required',
+    //   'accommodation' => 'required',
+    //   'email' => 'required',
+    //   'gender' => 'required|email',
+    //   'dob' => 'required',
+    //   'nationality' => 'required',
+    //   'street' => 'required',
+    //   'city' => 'required',
+    //   'country' => 'required',
+    //   'zipCode' => 'required',
+    //   'phone' => 'required',
+    //   'emergencyName' => 'required',
+    //   'emergencyPhone' => 'required',
+    //   'emergencyRelationship' => 'required',
+    //   'question1' => 'required',
+    //   'question3' => 'required',
+    //   'question5' => 'required',
+    //   'question6' => 'required',
+    //   'question7' => 'required',
     // ];
 
+    // $request->validate($rules);
 
-//     [
-//   "_token" => "kIkKz4s6egbtxlyTDjc5GJCGSSIi0Zi4wnzfSV0Q"
-//   "course" => "1"
-//   "location" => "8"
-//   "date" => "8"
-//   "accommodation" => "Dormitory (Same Gender Only)"
-//   "firstName" => null
-//   "lastName" => null
-//   "email" => null
-//   "occupation" => null
-//   "gender" => "male"
-//   "dob" => null
-//   "nationality" => null
-//   "street" => null
-//   "city" => null
-//   "country" => null
-//   "zipCode" => null
-//   "phone" => null
-//   "emergencyName" => null
-//   "emergencyPhone" => null
-//   "emergencyRelationship" => null
-//   "question1" => "Less than a year"
-//   "question2" => "Yes"
-//   "question3" => null
-//   "question4" => null
-//   "question5" => null
-//   "question6" => null
-//   "question7" => "No"
-//   "question8" => null
-// ]
+    // $message = [
+    //   'password_confirmation.required' => 'The confirm password field is required.',
+    //   'g-recaptcha-response.required' => 'Please verify that you are not a robot.',
+    //   'g-recaptcha-response.captcha' => 'Captcha error! try again later or contact site admin.'
+    // ];
 
+    // $bs = DB::table('basic_settings')->select('google_recaptcha_status')->first();
 
+    // if ($bs->google_recaptcha_status == 1) {
+    //   $rules['g-recaptcha-response'] = 'required|captcha';
+    // }
 
-    $message = [
-      'password_confirmation.required' => 'The confirm password field is required.',
-      'g-recaptcha-response.required' => 'Please verify that you are not a robot.',
-      'g-recaptcha-response.captcha' => 'Captcha error! try again later or contact site admin.'
-    ];
+    // $validator = Validator::make($request->all(), $rules, $message);
 
-    $bs = DB::table('basic_settings')->select('google_recaptcha_status')->first();
+    // if ($validator->fails()) {
+    //   return redirect()->back()->withErrors($validator)->withInput();
+    // }
 
-    if ($bs->google_recaptcha_status == 1) {
-      $rules['g-recaptcha-response'] = 'required|captcha';
-    }
+    // $user = new User();
+    // $user->username = $request->username;
+    // $user->email = $request->email;
+    // $user->password = Hash::make($request->password);
 
-    $validator = Validator::make($request->all(), $rules, $message);
+    // // first, generate a random string
+    // $randStr = Str::random(20);
 
-    if ($validator->fails()) {
-      return redirect()->back()->withErrors($validator)->withInput();
-    }
+    // // second, generate a token
+    // $token = md5($randStr . $request->username . $request->email);
 
-    $user = new User();
-    $user->username = $request->username;
-    $user->email = $request->email;
-    $user->password = Hash::make($request->password);
+    // $user->verification_token = $token;
+    // $user->save();
 
-    // first, generate a random string
-    $randStr = Str::random(20);
+    // // send a mail to user for verify his/her email address
+    // $this->sendVerificationEmail($request, $token);
 
-    // second, generate a token
-    $token = md5($randStr . $request->username . $request->email);
-
-    $user->verification_token = $token;
-    $user->save();
-
-    // send a mail to user for verify his/her email address
-    $this->sendVerificationEmail($request, $token);
-
-    return redirect()->back();
+    // return redirect()->back();
   }
 }
