@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\BackEnd;
 
-use App\Models\BatchesModel;
 use App\Models\CoursesModel;
 use Illuminate\Http\Request;
 use App\Models\StudentsModel;
@@ -25,7 +24,6 @@ class StudentsManagementController extends Controller
     }
     
     $data['courses'] = CoursesModel::all();
-    // $data['students'] = StudentsModel::all();
     return view('backend.studentsManagement.index', $data);
   }
 

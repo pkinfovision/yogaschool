@@ -2,26 +2,28 @@
 
 namespace App\Http\Controllers\FrontEnd;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UserProfileUpdateRequest;
-use App\Models\BasicSettings\MailTemplate;
-use App\Models\PackageManagement\PackageBooking;
-use App\Models\RoomManagement\RoomBooking;
 use App\Models\User;
-use App\Rules\MatchEmailRule;
-use App\Rules\MatchOldPasswordRule;
-use App\Traits\MiscellaneousTrait;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Laravel\Socialite\Facades\Socialite;
+use App\Models\BatchesModel;
+use App\Models\CoursesModel;
+use Illuminate\Http\Request;
+use App\Rules\MatchEmailRule;
+use App\Traits\MiscellaneousTrait;
+use Illuminate\Support\Facades\DB;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
+use App\Rules\MatchOldPasswordRule;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Session;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Validator;
+use App\Models\BasicSettings\MailTemplate;
+use App\Models\RoomManagement\RoomBooking;
+use App\Http\Requests\UserProfileUpdateRequest;
+use App\Models\PackageManagement\PackageBooking;
 
 class UserController extends Controller
 {
@@ -619,18 +621,76 @@ class UserController extends Controller
 
   public function applicationForm()
   {
-    return view('frontend.user.applicationForm', ['breadcrumbInfo' => $this->breadcrumb]);
+    $data['courses'] = CoursesModel::where('isRegistrationEnabled', 1)->get();
+    $data['breadcrumbInfo'] = $this->breadcrumb;
+    $data['batches'] = BatchesModel::all();
+    // dd($data);
+    return view('frontend.user.applicationForm', $data);
   }
 
   public function applicationFormSubmit(Request $request)
   {
     dd($request->all());
-    $rules = [
-      'username' => 'required|unique:users|max:255',
-      'email' => 'required|email:rfc,dns|unique:users|max:255',
-      'password' => 'required|confirmed',
-      'password_confirmation' => 'required'
+    $rules =
+    [
+      'course' => 'required',
+      'location' => 'required',
+      'date' => 'required',
+      'accommodation' => 'required',
+      'email' => 'required',
+      'gender' => 'required|email',
+      'dob' => 'required',
+      'nationality' => 'required',
+      'street' => 'required',
+      'city' => 'required',
+      'country' => 'required',
+      'zipCode' => 'required',
+      'phone' => 'required',
+      'username' => 'required',
+      'username' => 'required',
+      'username' => 'required',
     ];
+
+    // $rules = [
+    //   'username' => 'required|unique:users|max:255',
+    //   'email' => 'required|email:rfc,dns|unique:users|max:255',
+    //   'password' => 'required|confirmed',
+    //   'password_confirmation' => 'required'
+    // ];
+
+
+//     [
+//   "_token" => "kIkKz4s6egbtxlyTDjc5GJCGSSIi0Zi4wnzfSV0Q"
+//   "course" => "1"
+//   "location" => "8"
+//   "date" => "8"
+//   "accommodation" => "Dormitory (Same Gender Only)"
+//   "firstName" => null
+//   "lastName" => null
+//   "email" => null
+//   "occupation" => null
+//   "gender" => "male"
+//   "dob" => null
+//   "nationality" => null
+//   "street" => null
+//   "city" => null
+//   "country" => null
+//   "zipCode" => null
+//   "phone" => null
+//   "emergencyName" => null
+//   "emergencyPhone" => null
+//   "emergencyRelationship" => null
+//   "question1" => "Less than a year"
+//   "question2" => "Yes"
+//   "question3" => null
+//   "question4" => null
+//   "question5" => null
+//   "question6" => null
+//   "question7" => "No"
+//   "question8" => null
+// ]
+
+
 
     $message = [
       'password_confirmation.required' => 'The confirm password field is required.',
